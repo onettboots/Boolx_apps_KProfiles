@@ -33,9 +33,3 @@ on boot
     chown system system /sys/module/kprofiles/parameters/kp_mode
     chmod 0660 /sys/module/kprofiles/parameters/kp_mode
 
-on property:sys.post_boot.parsed=1
-    setprop vendor.post_boot.parsed 1
-
-on property:vendor.post_boot.parsed=1
-    # maybe need root for running correctly 
-    exec u:r:magisk:s0 root root -- /system/bin/boolx_kprofiles
