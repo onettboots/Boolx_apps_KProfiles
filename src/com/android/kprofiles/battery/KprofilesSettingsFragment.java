@@ -28,8 +28,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.util.Log;
-import java.io.IOException;
 
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -48,7 +46,6 @@ public class KprofilesSettingsFragment extends PreferenceFragment implements
     private Preference kProfilesModesInfo;
     private boolean mSelfChange = false;
 
-    private static final String TAG = "Boolx Kprofiles Plus";
     public static final String INTENT_ACTION = "com.android.kprofiles.battery.KPROFILE_CHANGED";
     public static final String KPROFILES_MODES_NODE = "/sys/kernel/kprofiles/kp_mode";
     public static final String KPROFILES_AUTO_KEY = "kprofiles_auto";
@@ -161,19 +158,15 @@ public class KprofilesSettingsFragment extends PreferenceFragment implements
         switch (mode) {
             case "0":
                 descrpition = getString(R.string.kprofiles_modes_none_description);
-		runShellScript("/vendor/etc/init/hw/balance.sh");
                 break;
             case "1":
                 descrpition = getString(R.string.kprofiles_modes_battery_description);
-		runShellScript("/vendor/etc/init/hw/battery.sh");
                 break;
             case "2":
                 descrpition = getString(R.string.kprofiles_modes_balanced_description);
-		runShellScript("/vendor/etc/init/hw/balance.sh");
                 break;
             case "3":
                 descrpition = getString(R.string.kprofiles_modes_performance_description);
-		runShellScript("/vendor/etc/init/hw/performance.sh");
                 break;
             default:
                 descrpition = getString(R.string.kprofiles_modes_none_description);
@@ -214,14 +207,4 @@ public class KprofilesSettingsFragment extends PreferenceFragment implements
             updateValues();
         }
     };
-
-    private void runShellScript(String scriptPath) {
-        try {
-            Process process = Runtime.getRuntime().exec(scriptPath);
-            process.waitFor();
-            Log.i(TAG, "Boolx KP+ mode changed: " + scriptPath);
-        } catch (IOException | InterruptedException e) {
-            Log.e(TAG, "Failed to change mode: " + e.getMessage());
-        }
-    }
 }
